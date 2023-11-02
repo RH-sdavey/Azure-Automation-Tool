@@ -1,0 +1,98 @@
+{% extends 'endpoint_base.html' %}
+
+{% block crumbs %}
+<li class="breadcrumb-item"><a href="{{ url_for('index_route') }}">Home</a></li>
+<li class="breadcrumb-item active"><a href="{{ url_for('azure_application_workloads_route') }}">Azure</a></li>
+{% if azure_action %}
+<li class="breadcrumb-item active"><a href="{{ url_for('azure_application_workloads_action_route', azure_action=azure_action) }}">{{azure_action}}</a></li>
+{% endif %}
+{% endblock %}
+
+
+
+{% block leftbar_topbuttons %}
+<form id="search-form">
+    <input type="text" id="search-input" class="form-control" placeholder="Search...">
+</form>
+{% endblock %}
+
+
+{% block leftbar_bottombuttons %}
+<div id="button-container">
+{% for key in azure_templates %}
+<a href="{{ url_for('azure_application_workloads_action_route', azure_action=key) }}">
+    <button class="btn btn-primary col-md-12 mt-2 hvr-grow-shadow text-start filter-button" type="button">
+        <i class="bi bi-cloud"></i>
+        {{ key }}
+    </button>
+</a>
+{% endfor %}
+</div>
+{% endblock %}
+
+
+{% block topbar_crumbs %}
+{% endblock %}
+
+{% block topbar_buttons %}
+{% endblock %}
+
+{% block topbar_content %}
+{% endblock %}
+
+{% block main_body %}
+{% if actions %}
+<table class="table datatable table-striped table-bordered table-hover">
+    <thead class="table-primary">
+    <tr>
+        <th>Action</th>
+        <th>Description</th>
+        <th>Deploy</th>
+        <th>Visualize</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for action in actions %}
+        <tr>
+            <td><h4>{{ action.action }}</h4></td>
+            <td><b>{{ action.description }}</b></td>
+            <td><a href="{{ action.link }}" target="_blank"><img src="https://aka.ms/deploytoazurebutton"/></a></td>
+            <td><a href="{{ action.visualize }}" target="_blank"><img src="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true"/></a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        new simpleDatatables.DataTable('.datatable');
+    });
+</script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    // Cache the button container for better performance
+    var $buttonContainer = $('#button-container');
+
+    // Listen for input changes in the search bar
+    $('#search-input').on('input', function () {
+        var searchText = $(this).val().toLowerCase();
+
+        // Hide all buttons and show only the ones that match the search text
+        $buttonContainer.find('.filter-button').each(function () {
+            var buttonText = $(this).text().toLowerCase();
+            if (buttonText.indexOf(searchText) === -1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

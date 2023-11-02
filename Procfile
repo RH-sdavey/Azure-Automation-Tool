@@ -1,0 +1,1 @@
+web: gunicorn flask_application:azure_automation_tool

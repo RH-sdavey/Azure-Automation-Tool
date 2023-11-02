@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+        <ul class="nav-content list-sidebar-nav-left" data-bs-parent="#sidebar-nav" id="applications-nav">
+            <div class="row">
+                <div class="col-md-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            {% block crumbs %}
+                            {% endblock %}
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+            <hr/>
+            {% block leftbar_topbuttons %}
+            {% endblock %}
+            <hr />
+            {% block leftbar_bottombuttons %}
+            {% endblock %}
+        </ul>
+
+    {% block topbar_content %}
+    <div class="card custom-card-overflow p-3 button-container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                {% block topbar_crumbs %}
+                {% endblock %}
+            </ol>
+        </nav>
+        <ul class="nav nav-pills">
+        {% block topbar_buttons %}
+        {% endblock %}
+        </ul>
+    </div>
+    {% endblock %}
+
+    {% block main_body %}
+    <div></div>
+    {% endblock %}
+
+
+    {% block modals %}
+    {% endblock %}
+
+
+    {% block scripts %}
+    {% endblock %}
+
+{% endblock %}
+
+
+
